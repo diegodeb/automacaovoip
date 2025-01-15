@@ -13,7 +13,6 @@ if("805EC08B631A"==serial){
     declare("Device.UserInterface.X_001565_Language.X_001565_GUILanguage", null, {value:"Portuguese"});
     declare("Device.UserInterface.X_001565_Language.X_001565_WebLanguage", null, {value:"Portuguese"});
     declare("Device.UserInterface.X_001565_Update.X_001565_AdminPassword", null, {value:"qmnases"});
-    
     declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthUserName", 1, {value: "101"});
     declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.X_001565_UserName", null, {value: "101"});
     declare("Device.Services.VoiceService.1.VoiceProfile.1.SIP.UserAgentDomain", 1, {value: "ippabx2.gb.reitoria.ufrn.br"});
