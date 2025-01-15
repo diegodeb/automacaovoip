@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  automacaovoip:
+    image: automacaovoip:latest
+    ports:
+      - "5000:5000"  # Mapeando a porta do container para a máquina host
+    volumes:
+      - /var/voip/data/provision_files:/app/provision_files  # Persistência de dados no host
+    environment:
+      - FLASK_ENV=development  # Variáveis de ambiente, se necessário
+    restart: unless-stopped  # Sempre reinicia o container, a menos que seja parado manualmente
