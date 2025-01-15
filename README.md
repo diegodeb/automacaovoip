@@ -29,7 +29,7 @@ Este projeto é uma aplicação de automação para gerenciamento de configuraç
 1. Clone o repositório para o seu diretório local:
 
    ```bash
-   git clone https://github.com/seu_usuario/automacaovoip.git
+   git clone https://github.com/diegodeb/automacaovoip.git
    cd automacaovoip
    ```
 O projeto já contém um arquivo docker-compose.yml que facilita a construção e execução da aplicação em containers.
