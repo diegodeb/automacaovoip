@@ -2,9 +2,9 @@ version: '3.8'
 
 services:
   automacaovoip:
-    image: automacaovoip:latest
+    image: diegoslack/automacaovoip:latest
     ports:
-      - "5000:5000"  # Mapeando a porta do container para a máquina host
+      - "5600:5600"  # Mapeando a porta do container para a máquina host
     volumes:
       - /var/voip/data/provision_files:/app/provision_files  # Persistência de dados no host
     environment:
