@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Generate Configs</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <a class="navbar-brand" href="#">Automação VoIP</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <div class="card">
+            <div class="card-header">
+              Criar Novo Ramal
+            </div>
+            <div class="card-body">
+              <form method="post" id="generate_form">
+                <div class="form-group">
+                  <label for="chamado">Número do Chamado</label>
+                  <input type="text" class="form-control" id="chamado" name="chamado">
+                </div>
+                <div class="form-group">
+                  <label for="mac">MAC Address</label>
+                  <input type="text" class="form-control" id="mac" name="mac" placeholder="exemplo: teste">
+                </div>
+                <div class="form-group">
+                  <label for="label">Label</label>
+                  <input type="text" class="form-control" id="label" name="label">
+                </div>
+                <div class="form-group">
+                  <label for="ramal">Ramal</label>
+                  <input type="text" class="form-control" id="ramal" name="ramal">
+                </div>
+                <div class="form-group">
+                  <label for="ippabx">Central ippabx</label>
+                  <input type="text" class="form-control" id="ippabx" name="ippabx">
+                </div>
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="text" class="form-control" id="password" name="password">
+                </div>
+                <button type="submit" name="generate_config" class="btn btn-primary">Gerar Configuração</button>
+              </form>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="card">
+            <div class="card-header">
+              Selecione a pasta do Ramal
+            </div>
+            <div class="card-body">
+              <form method="post" id="select_form">
+                <div class="form-group">
+                  <label for="select_directory">Escolha uma pasta:</label>
+                  <select class="form-control" id="select_directory" name="select_directory" required>
+                    <option value="">Selecione uma pasta</option>
+                    {% for directory in directories %}
+                      <option value="{{ directory }}">{{ directory }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Renderizar</button>
+              </form>
+            </div>
+          </div>
+
+          <br>
+          {% if provision_config %}
+            <div class="card mt-4">
+              <div class="card-header">
+                <h3>Passo 2</h3>
+                <button onclick="copyToClipboard('provision-config')" class="btn btn-secondary">Copiar {{ mac }} config</button>
+              </div>
+              <div class="card-body">
+                <pre id="provision-config">{{ provision_config }}</pre>
+                <button onclick="copyToClipboard('provision-config')" class="btn btn-secondary">Copiar {{ mac }} config</button>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      function copyToClipboard(elementId) {
+        var copyText = document.getElementById(elementId).innerText;
+        var textarea = document.createElement("textarea");
+        textarea.textContent = copyText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        alert("Configuração copiada!");
+      }
+    </script>
+  </body>
+</html>
+
+

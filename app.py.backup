@@ -1,0 +1,63 @@
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET', 'POST'])
+def form():
+    if request.method == 'POST':
+        mac = request.form['mac']
+        username = request.form['username']
+        ippabx = request.form['ippabx']
+        label = request.form['label']
+        password = request.form['password']
+
+        # Conteúdo do arquivo de texto com as variáveis preenchidas
+        content = f"""##LISTA DE VARIÁVEIS
+MAC: {mac}
+USERNAME: {username}
+IPPABX: {ippabx}
+LABEL: {label}
+PASSWORD: {password}
+
+let serial=declare("Device.DeviceInfo.SerialNumber",{{value:1}}).value[0];
+/*{mac}*/ 
+if("{mac}"==serial){{
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Enable", null, {{value:"Enabled"}});
+    declare("Device.Time.NTPServer1", null, {{value:"ntp.ufrn.br"}});
+    declare("Device.UserInterface.X_001565_Language.X_001565_GUILanguage", null, {{value:"Portuguese"}});
+    declare("Device.UserInterface.X_001565_Language.X_001565_WebLanguage", null, {{value:"Portuguese"}});
+    declare("Device.UserInterface.X_001565_Update.X_001565_AdminPassword", null, {{value:"qmnases"}});
+    
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthUserName", 1, {{value: "{username}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.X_001565_UserName", null, {{value: "{username}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.SIP.UserAgentDomain", 1, {{value: "{ippabx}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.SIP.RegistrarServer", null, {{value: "{ippabx}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.SipServer.1.RegistrarServer", null, {{value: "{ippabx}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.URI", null, {{value:"sip:"+"{username}"+"@"+"{ippabx}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.X_001565_Label", null, {{value:"{label}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.CallerIDName", null, {{value:"{label}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.X_001565_DisplayName", null, {{value:"{label}"}});
+    declare("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthPassword", 1, {{value:"{password}"}});
+}}
+"""
+
+        # Salva o conteúdo em um arquivo de texto
+        with open("config_output.txt", "w") as file:
+            file.write(content)
+
+        return "Arquivo gerado com sucesso! Verifique o arquivo 'config_output.txt'."
+
+    return '''
+        <form method="post">
+            MAC: <input type="text" name="mac"><br>
+            USERNAME: <input type="text" name="username"><br>
+            IPPABX: <input type="text" name="ippabx"><br>
+            LABEL: <input type="text" name="label"><br>
+            PASSWORD: <input type="password" name="password"><br>
+            <input type="submit" value="Enviar">
+        </form>
+    '''
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5500)
+
