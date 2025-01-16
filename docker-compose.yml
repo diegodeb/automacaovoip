@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   automacaovoip:
-    image: diegoslack/automacaovoip:latest
+    image: flgr.sti.ufrn.br/sti/automacaovoip:latest
     ports:
       - "5500:5500"  # Mapeando a porta do container para a máquina host
     volumes:
